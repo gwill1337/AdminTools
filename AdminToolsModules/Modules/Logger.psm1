@@ -1,4 +1,47 @@
 function Write-AdminLog {
+    <#
+    .SYNOPSIS
+        Writes log entries to text and JSON log files
+    
+    .DESCRIPTION
+        Writes structured log entries to both text-based and JSON log files.
+        Supports multiple log levels and automatic directory creation.
+    
+    .PARAMETER Message
+        Specifies the log message. This parameter is mandatory.
+    
+    .PARAMETER Level
+        Specifies the log level: DEBUG, INFO, WARNING, ERROR
+    
+    .PARAMETER LogFile
+        Specifies the text log file path
+    
+    .PARAMETER JsonFile
+        Specifies the JSON log file path
+    
+    .PARAMETER FunctionName
+        Specifies the function name for logging context
+    
+    .EXAMPLE
+        Write-AdminLog -Message "Application started" -Level INFO -FunctionName "MainScript"
+        
+        Writes info level log entry
+    
+    .EXAMPLE
+        Write-AdminLog -Message "Error occurred" -Level ERROR -FunctionName "ProcessData"
+        
+        Writes error level log entry
+    
+    .INPUTS
+        String. You can pipe log messages to this function.
+    
+    .OUTPUTS
+        None. Writes to log files.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
@@ -67,6 +110,49 @@ function Write-AdminLog {
 }
 
 function Get-AdminLog {
+    <#
+    .SYNOPSIS
+        Retrieves and filters log entries
+    
+    .DESCRIPTION
+        Retrieves log entries from text or JSON log files with filtering capabilities.
+        Supports filtering by log level, time range, and log type.
+    
+    .PARAMETER Type
+        Specifies the log type: JSON or LOG
+    
+    .PARAMETER Level
+        Filters by log level
+    
+    .PARAMETER After
+        Filters entries after specified datetime
+    
+    .PARAMETER Before
+        Filters entries before specified datetime
+    
+    .PARAMETER LogFile
+        Specifies the text log file path
+    
+    .PARAMETER JsonFile
+        Specifies the JSON log file path
+    
+    .EXAMPLE
+        Get-AdminLog -Type JSON -Level ERROR -After (Get-Date).AddDays(-1)
+        
+        Gets error entries from JSON log for last day
+    
+    .EXAMPLE
+        Get-AdminLog -Type LOG -Before (Get-Date).AddHours(-1)
+        
+        Gets entries from text log before last hour
+    
+    .OUTPUTS
+        PSCustomObject. Returns log entries.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
@@ -137,6 +223,40 @@ function Get-AdminLog {
 
 
 function Start-AdminLoggerObject {
+    <#
+    .SYNOPSIS
+        Monitors file system changes and logs them
+    
+    .DESCRIPTION
+        Sets up file system watcher to monitor directory changes and log them.
+        Tracks file creations, modifications, deletions, and renames.
+    
+    .PARAMETER Path
+        Specifies the directory path to monitor. This parameter is mandatory.
+    
+    .PARAMETER LogDir
+        Specifies the directory for log files
+    
+    .EXAMPLE
+        Start-AdminLoggerObject -Path "C:\ImportantFiles"
+        
+        Starts monitoring important files directory
+    
+    .EXAMPLE
+        Start-AdminLoggerObject -Path "D:\Projects" -LogDir "C:\Logs\FileMonitoring"
+        
+        Starts monitoring with custom log directory
+    
+    .INPUTS
+        String. You can pipe directory paths to this function.
+    
+    .OUTPUTS
+        None. Starts monitoring in background.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [string]$Path,
