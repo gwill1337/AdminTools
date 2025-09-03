@@ -6,4 +6,4 @@ Get-ChildItem -Path $ModulesPath -Filter "*.psm1" | ForEach-Object {
 Export-ModuleMember -Function *
 
 $Script:ModuleName = 'AdminTools'
-$Script:ModuleVersion = '1.0.0'
+$Script:ModuleVersion = '1.0.1'
