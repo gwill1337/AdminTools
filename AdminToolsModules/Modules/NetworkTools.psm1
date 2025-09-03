@@ -1,4 +1,38 @@
 function Test-AdminHost {
+    <#
+    .SYNOPSIS
+        Tests network connectivity to a host
+    
+    .DESCRIPTION
+        Performs ping tests to check network connectivity to specified host.
+        Returns detailed information about response times and status.
+    
+    .PARAMETER HostName
+        Specifies the hostname or IP address to test. This parameter is mandatory.
+    
+    .PARAMETER Count
+        Number of ping attempts. Default is 4.
+    
+    .PARAMETER Timeout
+        Timeout in milliseconds. Default is 2000ms.
+    
+    .EXAMPLE
+        Test-AdminHost -HostName "google.com"
+        
+        Tests connectivity to google.com
+    
+    .EXAMPLE
+        Test-AdminHost -HostName "server01" -Count 8 -Timeout 3000
+        
+        Tests with 8 attempts and 3 second timeout
+    
+    .OUTPUTS
+        PSCustomObject. Returns connectivity test results.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
@@ -51,6 +85,37 @@ function Test-AdminHost {
 
 
 function Test-AdminPort {
+    <#
+    .SYNOPSIS
+        Tests TCP port connectivity
+    
+    .DESCRIPTION
+        Tests whether a specific TCP port is open on a remote computer.
+        Provides detailed network connection information.
+    
+    .PARAMETER ComputerName
+        Specifies the computer name or IP address. This parameter is mandatory.
+    
+    .PARAMETER Port
+        Specifies the TCP port to test. This parameter is mandatory.
+    
+    .EXAMPLE
+        Test-AdminPort -ComputerName "google.com" -Port 443
+        
+        Tests if port 443 is open on google.com
+    
+    .EXAMPLE
+        Test-AdminPort -ComputerName "myserver" -Port 3389
+        
+        Tests if RDP port is open on server
+    
+    .OUTPUTS
+        PSCustomObject. Returns port test results.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
@@ -105,6 +170,34 @@ function Test-AdminPort {
 }
 
 function Get-AdminNetworkAdapters {
+    <#
+    .SYNOPSIS
+        Gets network adapter information
+    
+    .DESCRIPTION
+        Retrieves information about network adapters on the system.
+        Can filter to show only adapters that are up.
+    
+    .PARAMETER Uponly
+        Shows only network adapters that are in 'Up' state
+    
+    .EXAMPLE
+        Get-AdminNetworkAdapters
+        
+        Returns all network adapters
+    
+    .EXAMPLE
+        Get-AdminNetworkAdapters -Uponly
+        
+        Returns only active network adapters
+    
+    .OUTPUTS
+        None. Displays adapter information to console.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [switch]$Uponly
@@ -123,6 +216,40 @@ function Get-AdminNetworkAdapters {
 }
 
 function Get-AdminNetworkIP {
+    <#
+    .SYNOPSIS
+        Gets IP address information
+    
+    .DESCRIPTION
+        Retrieves IP address configuration for network interfaces.
+        Supports filtering by interface, IP version, and address family.
+    
+    .PARAMETER InterfaceAlias
+        Filters by specific network interface
+    
+    .PARAMETER IPv4Only
+        Shows only IPv4 addresses
+    
+    .PARAMETER IPv6Only
+        Shows only IPv6 addresses
+    
+    .EXAMPLE
+        Get-AdminNetworkIP
+        
+        Returns all IP addresses
+    
+    .EXAMPLE
+        Get-AdminNetworkIP -IPv4Only -InterfaceAlias "Ethernet"
+        
+        Returns IPv4 addresses for Ethernet interface
+    
+    .OUTPUTS
+        PSCustomObject. Returns IP address information.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [string]$InterfaceAlias,
