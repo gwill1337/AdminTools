@@ -1,5 +1,40 @@
 #Module System-Info
 function Get-AdminHostInfo {
+    <#
+    .SYNOPSIS
+        Gets detailed information about the local system
+    
+    .DESCRIPTION
+        Retrieves comprehensive system information including OS details, hardware configuration,
+        memory, CPU, disks, network, and security settings. Supports multiple detail levels.
+    
+    .PARAMETER DetailLevel
+        Specifies the level of detail to return. Basic returns OS info only, Detailed adds hardware
+        information, Full includes security and update information.
+        
+        Valid values: Basic, Detailed, Full
+        Default: Basic
+    
+    .PARAMETER Show
+        Displays formatted output to console instead of returning objects
+    
+    .EXAMPLE
+        Get-AdminHostInfo -DetailLevel Basic
+        
+        Returns basic system information for local computer
+    
+    .EXAMPLE  
+        Get-AdminHostInfo -DetailLevel Full -Show
+        
+        Displays full system information in formatted output
+    
+    .OUTPUTS
+        PSCustomObject. Returns system information objects
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [ValidateSet("Basic", "Detailed", "Full")]
@@ -131,6 +166,41 @@ function Get-AdminHostInfo {
 #Module Service-Control
 
 function Start-AdminService {
+    <#
+    .SYNOPSIS
+        Starts a Windows service with additional administrative features
+    
+    .DESCRIPTION
+        Starts the specified Windows service. If the service is already running and -Force is specified,
+        restarts the service. Includes logging and error handling.
+    
+    .PARAMETER Name
+        Specifies the service name. This parameter is mandatory.
+    
+    .PARAMETER Force
+        Forces the service to restart if it is already running
+    
+    .EXAMPLE
+        Start-AdminService -Name "Spooler"
+        
+        Starts the Print Spooler service
+    
+    .EXAMPLE
+        Start-AdminService -Name "WinRM" -Force
+        
+        Restarts the Windows Remote Management service even if it's running
+    
+    .INPUTS
+        String. You can pipe service names to this function.
+    
+    .OUTPUTS
+        None. Writes output to console and log.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     param (
 
         [Parameter(Mandatory = $true)]
@@ -166,6 +236,40 @@ function Start-AdminService {
 
 
 function Stop-AdminService {
+    <#
+    .SYNOPSIS
+        Stops a Windows service with administrative features
+    
+    .DESCRIPTION
+        Stops the specified Windows service. Includes logging and error handling.
+    
+    .PARAMETER Name
+        Specifies the service name. This parameter is mandatory.
+    
+    .PARAMETER Force
+        Forces the service to stop even if it has dependent services
+    
+    .EXAMPLE
+        Stop-AdminService -Name "SomeService"
+        
+        Stops the specified service
+    
+    .EXAMPLE
+        Stop-AdminService -Name "AnotherService" -Force
+        
+        Forcefully stops the service
+    
+    .INPUTS
+        String. You can pipe service names to this function.
+    
+    .OUTPUTS
+        None. Writes output to console and log.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     param (
         [Parameter(Mandatory = $true)]
         [string]$Name,
@@ -197,6 +301,41 @@ function Stop-AdminService {
 }
 
 function Restart-AdminService {
+    <#
+    .SYNOPSIS
+        Restarts a Windows service with administrative features
+    
+    .DESCRIPTION
+        Restarts the specified Windows service. If the service is stopped, starts it.
+        Includes logging and error handling.
+    
+    .PARAMETER Name
+        Specifies the service name. This parameter is mandatory.
+    
+    .PARAMETER Force
+        Forces the service to restart even if it has dependent services
+    
+    .EXAMPLE
+        Restart-AdminService -Name "Spooler"
+        
+        Restarts the Print Spooler service
+    
+    .EXAMPLE
+        Restart-AdminService -Name "WinRM" -Force
+        
+        Forcefully restarts the Windows Remote Management service
+    
+    .INPUTS
+        String. You can pipe service names to this function.
+    
+    .OUTPUTS
+        None. Writes output to console and log.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     param (
         [Parameter(Mandatory = $true)]
         [string]$Name,
@@ -231,6 +370,49 @@ function Restart-AdminService {
 }
 
 function Watch-AdminService {
+    <#
+    .SYNOPSIS
+        Monitors a Windows service and automatically restarts it if it stops
+    
+    .DESCRIPTION
+        Sets up event-based monitoring for a Windows service. If the service stops,
+        it will be automatically restarted. Includes force option and stop monitoring capability.
+    
+    .PARAMETER Name
+        Specifies the service name to monitor. This parameter is mandatory.
+    
+    .PARAMETER Force
+        Forces the service restart when using automatic recovery
+    
+    .PARAMETER StopWatch
+        Stops the monitoring for the specified service
+    
+    .EXAMPLE
+        Watch-AdminService -Name "CriticalService"
+        
+        Starts monitoring the critical service
+    
+    .EXAMPLE
+        Watch-AdminService -Name "ImportantService" -Force
+        
+        Starts monitoring with forceful restart
+    
+    .EXAMPLE
+        Watch-AdminService -Name "SomeService" -StopWatch
+        
+        Stops monitoring the service
+    
+    .INPUTS
+        String. You can pipe service names to this function.
+    
+    .OUTPUTS
+        None. Sets up event monitoring in the background.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
@@ -279,6 +461,37 @@ function Watch-AdminService {
 #=====================================================
 #Module Process-Control
 function Get-AdminAllProcesses {
+    <#
+    .SYNOPSIS
+        Gets information about running processes with administrative features
+    
+    .DESCRIPTION
+        Retrieves detailed information about currently running processes.
+        Can sort by CPU or memory usage and limit results to top processes.
+    
+    .PARAMETER Top
+        Specifies the number of top processes to return. Default is 10.
+    
+    .PARAMETER SortByCPU
+        Sorts processes by CPU usage instead of memory usage
+    
+    .EXAMPLE
+        Get-AdminAllProcesses
+        
+        Returns top 10 processes by memory usage
+    
+    .EXAMPLE
+        Get-AdminAllProcesses -Top 5 -SortByCPU
+        
+        Returns top 5 processes by CPU usage
+    
+    .OUTPUTS
+        PSCustomObject. Returns process information objects
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     param (
         [int]$Top = 10,
         [switch]$SortByCPU
@@ -300,6 +513,39 @@ function Get-AdminAllProcesses {
 
 
 function Stop-AdminProcess {
+    <#
+    .SYNOPSIS
+        Stops a running process with administrative features
+    
+    .DESCRIPTION
+        Stops the specified process by name. Includes force option and error handling.
+    
+    .PARAMETER Name
+        Specifies the process name. This parameter is mandatory.
+    
+    .PARAMETER Force
+        Forces the process to terminate immediately
+    
+    .EXAMPLE
+        Stop-AdminProcess -Name "NotRespondingApp"
+        
+        Stops the not responding application
+    
+    .EXAMPLE
+        Stop-AdminProcess -Name "MaliciousProcess" -Force
+        
+        Forcefully terminates the malicious process
+    
+    .INPUTS
+        String. You can pipe process names to this function.
+    
+    .OUTPUTS
+        None. Writes output to console and log.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     param (
 
         [Parameter(Mandatory = $true, Position=0)]
@@ -326,6 +572,43 @@ function Stop-AdminProcess {
 
 
 function Start-AdminProcessByName {
+    <#
+    .SYNOPSIS
+        Starts a process by specifying the executable path
+    
+    .DESCRIPTION
+        Starts a new process from the specified executable path.
+        Supports arguments and wait option for synchronous execution.
+    
+    .PARAMETER Path
+        Specifies the path to the executable. This parameter is mandatory.
+    
+    .PARAMETER Arguments
+        Specifies arguments to pass to the process
+    
+    .PARAMETER Wait
+        Waits for the process to complete before continuing
+    
+    .EXAMPLE
+        Start-AdminProcessByName -Path "C:\Program Files\MyApp\app.exe"
+        
+        Starts the application from specified path
+    
+    .EXAMPLE
+        Start-AdminProcessByName -Path "script.ps1" -Arguments "-Verbose" -Wait
+        
+        Starts PowerShell script with arguments and waits for completion
+    
+    .INPUTS
+        String. You can pipe file paths to this function.
+    
+    .OUTPUTS
+        None. Starts the specified process.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     param (
 
         [Parameter(Mandatory = $true)]
@@ -349,6 +632,34 @@ function Start-AdminProcessByName {
 #=====================================================
 #Module User-Management
 function Get-AdminAllUsers {
+    <#
+    .SYNOPSIS
+        Gets information about local users
+    
+    .DESCRIPTION
+        Retrieves information about all local users or filters by enabled/disabled state.
+    
+    .PARAMETER state
+        Filters users by their enabled state: All, Enabled, or Disabled
+    
+    .EXAMPLE
+        Get-AdminAllUsers
+        
+        Returns all local users
+    
+    .EXAMPLE
+        Get-AdminAllUsers -State Enabled
+        
+        Returns only enabled users
+    
+    .OUTPUTS
+        PSCustomObject. Returns user information objects
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     param (
         [ValidateSet("All","Enabled","Disabled")]
         [string]$state = "All"
@@ -365,6 +676,36 @@ function Get-AdminAllUsers {
 }
 
 function New-AdminUser {
+    <#
+    .SYNOPSIS
+        Creates a new local user account
+    
+    .DESCRIPTION
+        Creates a new local user account with specified name and optional group memberships.
+        Includes password prompt and automatic logging.
+    
+    .PARAMETER Name
+        Specifies the username. This parameter is mandatory.
+    
+    .PARAMETER Groups
+        Specifies groups to add the user to
+    
+    .EXAMPLE
+        New-AdminUser -Name "john.doe" -Groups @("Users", "RemoteDesktopUsers")
+        
+        Creates new user and adds to specified groups
+    
+    .INPUTS
+        String. You can pipe usernames to this function.
+    
+    .OUTPUTS
+        None. Creates user account and writes to log.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     param (
         [Parameter(Mandatory=$true)]
         [string]$Name,
@@ -390,6 +731,40 @@ function New-AdminUser {
 }
 
 function Set-AdminUserState {
+    <#
+    .SYNOPSIS
+        Enables or disables a local user account
+    
+    .DESCRIPTION
+        Changes the enabled state of a local user account. Includes validation and logging.
+    
+    .PARAMETER State
+        Specifies whether to enable or disable the account
+    
+    .PARAMETER Name
+        Specifies the username. This parameter is mandatory.
+    
+    .EXAMPLE
+        Set-AdminUserState -Name "john.doe" -State Disable
+        
+        Disables the user account
+    
+    .EXAMPLE
+        Set-AdminUserState -Name "jane.smith" -State Enable
+        
+        Enables the user account
+    
+    .INPUTS
+        String. You can pipe usernames to this function.
+    
+    .OUTPUTS
+        None. Changes user state and writes to log.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     param (
         [ValidateSet("Enable","Disable")]
         [string]$State = "Enable",
@@ -426,6 +801,41 @@ function Set-AdminUserState {
 
 
 function Remove-AdminUser {
+    <#
+    .SYNOPSIS
+        Removes a local user account
+    
+    .DESCRIPTION
+        Removes the specified local user account. Includes protection against system account deletion
+        and confirmation prompt (unless -Force is specified).
+    
+    .PARAMETER Name
+        Specifies the username to remove. This parameter is mandatory.
+    
+    .PARAMETER Force
+        Skips confirmation prompt
+    
+    .EXAMPLE
+        Remove-AdminUser -Name "temp.user"
+        
+        Removes the user with confirmation
+    
+    .EXAMPLE
+        Remove-AdminUser -Name "old.account" -Force
+        
+        Forcefully removes the user without confirmation
+    
+    .INPUTS
+        String. You can pipe usernames to this function.
+    
+    .OUTPUTS
+        None. Removes user account and writes to log.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     param (
         
         [Parameter(Mandatory = $true)]
@@ -462,6 +872,38 @@ function Remove-AdminUser {
 }
 
 function Set-AdminUserInfo {
+    <#
+    .SYNOPSIS
+        Sets user account information
+    
+    .DESCRIPTION
+        Updates user account properties such as full name and description.
+    
+    .PARAMETER Name
+        Specifies the username. This parameter is mandatory.
+    
+    .PARAMETER FullName
+        Specifies the full name for the user
+    
+    .PARAMETER Description
+        Specifies the description for the user
+    
+    .EXAMPLE
+        Set-AdminUserInfo -Name "john.doe" -FullName "John Doe" -Description "Sales Department"
+        
+        Updates user information
+    
+    .INPUTS
+        String. You can pipe usernames to this function.
+    
+    .OUTPUTS
+        PSCustomObject. Returns updated user information.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     param (
         
         [Parameter(Mandatory = $true)]
@@ -497,6 +939,32 @@ function Set-AdminUserInfo {
 }
 
 function Reset-AdminUserPassword {
+    <#
+    .SYNOPSIS
+        Resets a user's password
+    
+    .DESCRIPTION
+        Resets the password for the specified user account. Includes secure password prompt.
+    
+    .PARAMETER Name
+        Specifies the username. This parameter is mandatory.
+    
+    .EXAMPLE
+        Reset-AdminUserPassword -Name "john.doe"
+        
+        Resets password for the user
+    
+    .INPUTS
+        String. You can pipe usernames to this function.
+    
+    .OUTPUTS
+        None. Resets password and writes to log.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     param (
         
         [Parameter(Mandatory = $true)]
@@ -522,6 +990,47 @@ function Reset-AdminUserPassword {
 #=====================================================
 #Module Security & Logs
 function Get-AdminEvent {
+    <#
+    .SYNOPSIS
+        Gets Windows event log entries with filtering options
+    
+    .DESCRIPTION
+        Retrieves events from Windows security log with advanced filtering capabilities.
+        Supports filtering by user, event ID, time range, and failed logon events.
+    
+    .PARAMETER UserName
+        Filters events by username
+    
+    .PARAMETER LastDays
+        Number of days to look back. Default is 1 day.
+    
+    .PARAMETER EventID
+        Filters by specific event IDs
+    
+    .PARAMETER MaxLenMessage
+        Maximum length of message to return. Default is 250 characters.
+    
+    .PARAMETER FailedLogon
+        Filters for failed logon events (Event ID 4625)
+    
+    .EXAMPLE
+        Get-AdminEvent -LastDays 7
+        
+        Returns events from last 7 days
+    
+    .EXAMPLE
+        Get-AdminEvent -UserName "john.doe" -EventID 4625 -FailedLogon
+        
+        Returns failed logon events for specific user
+    
+    .OUTPUTS
+        PSCustomObject. Returns event log entries.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Read access to security log
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [string]$UserName,
@@ -581,6 +1090,43 @@ function Get-AdminEvent {
 
 
 function Get-AdminInstalledUpdates {
+    <#
+    .SYNOPSIS
+        Gets information about installed Windows updates
+    
+    .DESCRIPTION
+        Retrieves information about installed hotfixes and updates.
+        Supports filtering by date, update type, and computer name.
+    
+    .PARAMETER SinceDate
+        Filters updates installed since specified date
+    
+    .PARAMETER Type
+        Filters by update type (e.g., "Security Update", "Update")
+    
+    .PARAMETER ComputerName
+        Gets updates from remote computers
+    
+    .PARAMETER SortByDate
+        Sorts results by installation date
+    
+    .EXAMPLE
+        Get-AdminInstalledUpdates -SinceDate (Get-Date).AddDays(-30)
+        
+        Returns updates installed in last 30 days
+    
+    .EXAMPLE
+        Get-AdminInstalledUpdates -Type "Security Update" -SortByDate
+        
+        Returns security updates sorted by date
+    
+    .OUTPUTS
+        PSCustomObject. Returns update information.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     param (
         [datetime]$SinceDate,
         [string]$Type,
@@ -619,6 +1165,40 @@ function Get-AdminInstalledUpdates {
 #=====================================================
 #Module NetWork-Tools
 function Test-AdminHost {
+    <#
+    .SYNOPSIS
+        Tests network connectivity to a host
+    
+    .DESCRIPTION
+        Performs ping tests to check network connectivity to specified host.
+        Returns detailed information about response times and status.
+    
+    .PARAMETER HostName
+        Specifies the hostname or IP address to test. This parameter is mandatory.
+    
+    .PARAMETER Count
+        Number of ping attempts. Default is 4.
+    
+    .PARAMETER Timeout
+        Timeout in milliseconds. Default is 2000ms.
+    
+    .EXAMPLE
+        Test-AdminHost -HostName "google.com"
+        
+        Tests connectivity to google.com
+    
+    .EXAMPLE
+        Test-AdminHost -HostName "server01" -Count 8 -Timeout 3000
+        
+        Tests with 8 attempts and 3 second timeout
+    
+    .OUTPUTS
+        PSCustomObject. Returns connectivity test results.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
@@ -671,6 +1251,37 @@ function Test-AdminHost {
 
 
 function Test-AdminPort {
+    <#
+    .SYNOPSIS
+        Tests TCP port connectivity
+    
+    .DESCRIPTION
+        Tests whether a specific TCP port is open on a remote computer.
+        Provides detailed network connection information.
+    
+    .PARAMETER ComputerName
+        Specifies the computer name or IP address. This parameter is mandatory.
+    
+    .PARAMETER Port
+        Specifies the TCP port to test. This parameter is mandatory.
+    
+    .EXAMPLE
+        Test-AdminPort -ComputerName "google.com" -Port 443
+        
+        Tests if port 443 is open on google.com
+    
+    .EXAMPLE
+        Test-AdminPort -ComputerName "myserver" -Port 3389
+        
+        Tests if RDP port is open on server
+    
+    .OUTPUTS
+        PSCustomObject. Returns port test results.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
@@ -725,6 +1336,34 @@ function Test-AdminPort {
 }
 
 function Get-AdminNetworkAdapters {
+    <#
+    .SYNOPSIS
+        Gets network adapter information
+    
+    .DESCRIPTION
+        Retrieves information about network adapters on the system.
+        Can filter to show only adapters that are up.
+    
+    .PARAMETER Uponly
+        Shows only network adapters that are in 'Up' state
+    
+    .EXAMPLE
+        Get-AdminNetworkAdapters
+        
+        Returns all network adapters
+    
+    .EXAMPLE
+        Get-AdminNetworkAdapters -Uponly
+        
+        Returns only active network adapters
+    
+    .OUTPUTS
+        None. Displays adapter information to console.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [switch]$Uponly
@@ -743,6 +1382,40 @@ function Get-AdminNetworkAdapters {
 }
 
 function Get-AdminNetworkIP {
+    <#
+    .SYNOPSIS
+        Gets IP address information
+    
+    .DESCRIPTION
+        Retrieves IP address configuration for network interfaces.
+        Supports filtering by interface, IP version, and address family.
+    
+    .PARAMETER InterfaceAlias
+        Filters by specific network interface
+    
+    .PARAMETER IPv4Only
+        Shows only IPv4 addresses
+    
+    .PARAMETER IPv6Only
+        Shows only IPv6 addresses
+    
+    .EXAMPLE
+        Get-AdminNetworkIP
+        
+        Returns all IP addresses
+    
+    .EXAMPLE
+        Get-AdminNetworkIP -IPv4Only -InterfaceAlias "Ethernet"
+        
+        Returns IPv4 addresses for Ethernet interface
+    
+    .OUTPUTS
+        PSCustomObject. Returns IP address information.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [string]$InterfaceAlias,
@@ -780,6 +1453,54 @@ function Get-AdminNetworkIP {
 #=====================================================
 #Module Automation
 function Register-AdminTask {
+    <#
+    .SYNOPSIS
+        Registers a scheduled task
+    
+    .DESCRIPTION
+        Creates a new scheduled task with various trigger options.
+        Supports daily, hourly, and logon triggers with custom credentials.
+    
+    .PARAMETER TaskName
+        Specifies the task name. This parameter is mandatory.
+    
+    .PARAMETER ScriptPath
+        Specifies the script path to execute. This parameter is mandatory.
+    
+    .PARAMETER TriggerType
+        Specifies the trigger type: Daily, Hourly, or AtLogon
+    
+    .PARAMETER TriggerTime
+        Specifies the time for daily triggers
+    
+    .PARAMETER User
+        Specifies the user account to run the task
+    
+    .PARAMETER Password
+        Specifies the password for the user account
+    
+    .PARAMETER RepeatInterval
+        Specifies repetition interval for hourly triggers
+    
+    .PARAMETER Executable
+        Specifies the executable to use
+    
+    .EXAMPLE
+        Register-AdminTask -TaskName "DailyBackup" -ScriptPath "C:\Scripts\backup.ps1" -TriggerType Daily -TriggerTime "23:00"
+        
+        Creates daily backup task at 11 PM
+    
+    .INPUTS
+        None. You cannot pipe input to this function.
+    
+    .OUTPUTS
+        None. Creates scheduled task and writes to log.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
@@ -868,6 +1589,32 @@ function Register-AdminTask {
 }
 
 function Remove-AdminTask {
+    <#
+    .SYNOPSIS
+        Removes a scheduled task
+    
+    .DESCRIPTION
+        Removes the specified scheduled task from Task Scheduler.
+    
+    .PARAMETER TaskName
+        Specifies the task name to remove. This parameter is mandatory.
+    
+    .EXAMPLE
+        Remove-AdminTask -TaskName "OldTask"
+        
+        Removes the specified task
+    
+    .INPUTS
+        String. You can pipe task names to this function.
+    
+    .OUTPUTS
+        None. Removes task and writes to log.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
@@ -886,6 +1633,53 @@ function Remove-AdminTask {
 }
 
 function Send-AdminReport {
+    <#
+    .SYNOPSIS
+        Sends administrative reports via email
+    
+    .DESCRIPTION
+        Generates and sends reports in various formats (CSV, JSON, HTML) via email.
+        Supports including user, service, and update information.
+    
+    .PARAMETER ReportName
+        Specifies the report name. This parameter is mandatory.
+    
+    .PARAMETER Format
+        Specifies the report format: CSV, JSON, or HTML
+    
+    .PARAMETER Recipient
+        Specifies the email recipient
+    
+    .PARAMETER fSender
+        Specifies the sender email address
+    
+    .PARAMETER SmtpServer
+        Specifies the SMTP server
+    
+    .PARAMETER IncludeUsers
+        Includes user information in the report
+    
+    .PARAMETER IncludeServices
+        Includes service information in the report
+    
+    .PARAMETER InclideUpdates
+        Includes update information in the report
+    
+    .EXAMPLE
+        Send-AdminReport -ReportName "WeeklyReport" -Format HTML -Recipient "admin@company.com" -IncludeUsers -IncludeServices
+        
+        Sends HTML report with user and service information
+    
+    .INPUTS
+        None. You cannot pipe input to this function.
+    
+    .OUTPUTS
+        None. Generates and sends report.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
@@ -986,6 +1780,48 @@ function Send-AdminReport {
 #=====================================================
 #Module Remote-Admin
 function Invoke-AdminRemoteCommand {
+    <#
+    .SYNOPSIS
+        Executes commands on remote computers
+    
+    .DESCRIPTION
+        Executes PowerShell scriptblocks on one or more remote computers.
+        Supports credentials, throttling, and error handling.
+    
+    .PARAMETER ComputerName
+        Specifies the remote computers. This parameter is mandatory.
+    
+    .PARAMETER Scriptblock
+        Specifies the scriptblock to execute. This parameter is mandatory.
+    
+    .PARAMETER Credential
+        Specifies credentials for remote access
+    
+    .PARAMETER ThrottleLimit
+        Specifies the maximum number of concurrent connections
+    
+    .PARAMETER fErrorAction
+        Specifies error action preference
+    
+    .EXAMPLE
+        Invoke-AdminRemoteCommand -ComputerName "Server01", "Server02" -Scriptblock { Get-Service }
+        
+        Gets services from multiple servers
+    
+    .EXAMPLE
+        $cred = Get-Credential
+        Invoke-AdminRemoteCommand -ComputerName "Server01" -Scriptblock { Get-Process } -Credential $cred
+        
+        Gets processes from server with credentials
+    
+    .OUTPUTS
+        PSCustomObject. Returns remote execution results.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: PowerShell Remoting enabled on target computers
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
@@ -1052,6 +1888,50 @@ function Invoke-AdminRemoteCommand {
 
 
 function Get-AdminRemoteInfo {
+    <#
+    .SYNOPSIS
+        Gets system information from remote computers
+    
+    .DESCRIPTION
+        Retrieves comprehensive system information from one or more remote computers.
+        Supports the same detail levels as Get-AdminHostInfo.
+    
+    .PARAMETER DetailLevel
+        Specifies the level of detail: Basic, Detailed, or Full
+    
+    .PARAMETER Show
+        Displays formatted output instead of returning objects
+    
+    .PARAMETER ComputerName
+        Specifies the remote computers. This parameter is mandatory.
+    
+    .PARAMETER Credential
+        Specifies credentials for remote access
+    
+    .PARAMETER fErrorAction
+        Specifies error action preference
+    
+    .PARAMETER ThrottleLimit
+        Specifies the maximum number of concurrent connections
+    
+    .EXAMPLE
+        Get-AdminRemoteInfo -ComputerName "Server01" -DetailLevel Full
+        
+        Gets full system information from server
+    
+    .EXAMPLE
+        Get-AdminRemoteInfo -ComputerName @("Server01", "Server02") -DetailLevel Basic -Show
+        
+        Displays basic information from multiple servers
+    
+    .OUTPUTS
+        PSCustomObject. Returns remote system information.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: PowerShell Remoting enabled on target computers
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [ValidateSet("Basic", "Detailed", "Full")]
@@ -1210,6 +2090,49 @@ function Get-AdminRemoteInfo {
 #=====================================================
 #Module Logger
 function Write-AdminLog {
+    <#
+    .SYNOPSIS
+        Writes log entries to text and JSON log files
+    
+    .DESCRIPTION
+        Writes structured log entries to both text-based and JSON log files.
+        Supports multiple log levels and automatic directory creation.
+    
+    .PARAMETER Message
+        Specifies the log message. This parameter is mandatory.
+    
+    .PARAMETER Level
+        Specifies the log level: DEBUG, INFO, WARNING, ERROR
+    
+    .PARAMETER LogFile
+        Specifies the text log file path
+    
+    .PARAMETER JsonFile
+        Specifies the JSON log file path
+    
+    .PARAMETER FunctionName
+        Specifies the function name for logging context
+    
+    .EXAMPLE
+        Write-AdminLog -Message "Application started" -Level INFO -FunctionName "MainScript"
+        
+        Writes info level log entry
+    
+    .EXAMPLE
+        Write-AdminLog -Message "Error occurred" -Level ERROR -FunctionName "ProcessData"
+        
+        Writes error level log entry
+    
+    .INPUTS
+        String. You can pipe log messages to this function.
+    
+    .OUTPUTS
+        None. Writes to log files.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
@@ -1275,6 +2198,49 @@ function Write-AdminLog {
 }
 
 function Get-AdminLog {
+    <#
+    .SYNOPSIS
+        Retrieves and filters log entries
+    
+    .DESCRIPTION
+        Retrieves log entries from text or JSON log files with filtering capabilities.
+        Supports filtering by log level, time range, and log type.
+    
+    .PARAMETER Type
+        Specifies the log type: JSON or LOG
+    
+    .PARAMETER Level
+        Filters by log level
+    
+    .PARAMETER After
+        Filters entries after specified datetime
+    
+    .PARAMETER Before
+        Filters entries before specified datetime
+    
+    .PARAMETER LogFile
+        Specifies the text log file path
+    
+    .PARAMETER JsonFile
+        Specifies the JSON log file path
+    
+    .EXAMPLE
+        Get-AdminLog -Type JSON -Level ERROR -After (Get-Date).AddDays(-1)
+        
+        Gets error entries from JSON log for last day
+    
+    .EXAMPLE
+        Get-AdminLog -Type LOG -Before (Get-Date).AddHours(-1)
+        
+        Gets entries from text log before last hour
+    
+    .OUTPUTS
+        PSCustomObject. Returns log entries.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
@@ -1345,6 +2311,40 @@ function Get-AdminLog {
 
 
 function Start-AdminLoggerObject {
+    <#
+    .SYNOPSIS
+        Monitors file system changes and logs them
+    
+    .DESCRIPTION
+        Sets up file system watcher to monitor directory changes and log them.
+        Tracks file creations, modifications, deletions, and renames.
+    
+    .PARAMETER Path
+        Specifies the directory path to monitor. This parameter is mandatory.
+    
+    .PARAMETER LogDir
+        Specifies the directory for log files
+    
+    .EXAMPLE
+        Start-AdminLoggerObject -Path "C:\ImportantFiles"
+        
+        Starts monitoring important files directory
+    
+    .EXAMPLE
+        Start-AdminLoggerObject -Path "D:\Projects" -LogDir "C:\Logs\FileMonitoring"
+        
+        Starts monitoring with custom log directory
+    
+    .INPUTS
+        String. You can pipe directory paths to this function.
+    
+    .OUTPUTS
+        None. Starts monitoring in background.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [string]$Path,
