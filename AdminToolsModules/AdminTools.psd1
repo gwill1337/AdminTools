@@ -167,7 +167,7 @@ PrivateData = @{
         Tags = @('Admin', 'Management', 'Monitoring', 'System', 'Network', 'Security', 'Automation', 'Remote')
 
         # A URL to the license for this module.
-        LicenseUri = 'https://github.com/gwill1337/AdminTools/blob/main/AdminToolsMono/LICENSE'
+        LicenseUri = 'https://github.com/gwill1337/AdminTools/blob/main/AdminToolsModules/LICENSE'
 
         # A URL to the main website for this project.
         ProjectUri = 'https://github.com/gwill1337/AdminTools'
