@@ -1,4 +1,35 @@
 function Get-AdminAllProcesses {
+    <#
+    .SYNOPSIS
+        Gets information about running processes with administrative features
+    
+    .DESCRIPTION
+        Retrieves detailed information about currently running processes.
+        Can sort by CPU or memory usage and limit results to top processes.
+    
+    .PARAMETER Top
+        Specifies the number of top processes to return. Default is 10.
+    
+    .PARAMETER SortByCPU
+        Sorts processes by CPU usage instead of memory usage
+    
+    .EXAMPLE
+        Get-AdminAllProcesses
+        
+        Returns top 10 processes by memory usage
+    
+    .EXAMPLE
+        Get-AdminAllProcesses -Top 5 -SortByCPU
+        
+        Returns top 5 processes by CPU usage
+    
+    .OUTPUTS
+        PSCustomObject. Returns process information objects
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     param (
         [int]$Top = 10,
         [switch]$SortByCPU
@@ -20,6 +51,39 @@ function Get-AdminAllProcesses {
 
 
 function Stop-AdminProcess {
+    <#
+    .SYNOPSIS
+        Stops a running process with administrative features
+    
+    .DESCRIPTION
+        Stops the specified process by name. Includes force option and error handling.
+    
+    .PARAMETER Name
+        Specifies the process name. This parameter is mandatory.
+    
+    .PARAMETER Force
+        Forces the process to terminate immediately
+    
+    .EXAMPLE
+        Stop-AdminProcess -Name "NotRespondingApp"
+        
+        Stops the not responding application
+    
+    .EXAMPLE
+        Stop-AdminProcess -Name "MaliciousProcess" -Force
+        
+        Forcefully terminates the malicious process
+    
+    .INPUTS
+        String. You can pipe process names to this function.
+    
+    .OUTPUTS
+        None. Writes output to console and log.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     param (
 
         [Parameter(Mandatory = $true, Position=0)]
@@ -46,6 +110,43 @@ function Stop-AdminProcess {
 
 
 function Start-AdminProcessByName {
+    <#
+    .SYNOPSIS
+        Starts a process by specifying the executable path
+    
+    .DESCRIPTION
+        Starts a new process from the specified executable path.
+        Supports arguments and wait option for synchronous execution.
+    
+    .PARAMETER Path
+        Specifies the path to the executable. This parameter is mandatory.
+    
+    .PARAMETER Arguments
+        Specifies arguments to pass to the process
+    
+    .PARAMETER Wait
+        Waits for the process to complete before continuing
+    
+    .EXAMPLE
+        Start-AdminProcessByName -Path "C:\Program Files\MyApp\app.exe"
+        
+        Starts the application from specified path
+    
+    .EXAMPLE
+        Start-AdminProcessByName -Path "script.ps1" -Arguments "-Verbose" -Wait
+        
+        Starts PowerShell script with arguments and waits for completion
+    
+    .INPUTS
+        String. You can pipe file paths to this function.
+    
+    .OUTPUTS
+        None. Starts the specified process.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     param (
 
         [Parameter(Mandatory = $true)]
