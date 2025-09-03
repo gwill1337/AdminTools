@@ -44,8 +44,7 @@ build/
 
 # --- Файлы зависимостей ---
 packages/
-Modules/
-!Modules/*.psm1
+
 
 # --- Файлы документации ---
 *.chm
@@ -127,7 +126,6 @@ Dockerfile
 !*.psd1
 !*.ps1xml
 !*.md
-!*.txt
 !LICENSE
 !*.json
 !*.yml
@@ -146,5 +144,4 @@ CODE_OF_CONDUCT.md
 !*.template
 
 # --- Файлы лицензии ---
-LICENSE*
 COPYING*
