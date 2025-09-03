@@ -1,4 +1,32 @@
 function Get-AdminAllUsers {
+    <#
+    .SYNOPSIS
+        Gets information about local users
+    
+    .DESCRIPTION
+        Retrieves information about all local users or filters by enabled/disabled state.
+    
+    .PARAMETER state
+        Filters users by their enabled state: All, Enabled, or Disabled
+    
+    .EXAMPLE
+        Get-AdminAllUsers
+        
+        Returns all local users
+    
+    .EXAMPLE
+        Get-AdminAllUsers -State Enabled
+        
+        Returns only enabled users
+    
+    .OUTPUTS
+        PSCustomObject. Returns user information objects
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     param (
         [ValidateSet("All","Enabled","Disabled")]
         [string]$state = "All"
@@ -15,6 +43,36 @@ function Get-AdminAllUsers {
 }
 
 function New-AdminUser {
+    <#
+    .SYNOPSIS
+        Creates a new local user account
+    
+    .DESCRIPTION
+        Creates a new local user account with specified name and optional group memberships.
+        Includes password prompt and automatic logging.
+    
+    .PARAMETER Name
+        Specifies the username. This parameter is mandatory.
+    
+    .PARAMETER Groups
+        Specifies groups to add the user to
+    
+    .EXAMPLE
+        New-AdminUser -Name "john.doe" -Groups @("Users", "RemoteDesktopUsers")
+        
+        Creates new user and adds to specified groups
+    
+    .INPUTS
+        String. You can pipe usernames to this function.
+    
+    .OUTPUTS
+        None. Creates user account and writes to log.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     param (
         [Parameter(Mandatory=$true)]
         [string]$Name,
@@ -40,6 +98,40 @@ function New-AdminUser {
 }
 
 function Set-AdminUserState {
+    <#
+    .SYNOPSIS
+        Enables or disables a local user account
+    
+    .DESCRIPTION
+        Changes the enabled state of a local user account. Includes validation and logging.
+    
+    .PARAMETER State
+        Specifies whether to enable or disable the account
+    
+    .PARAMETER Name
+        Specifies the username. This parameter is mandatory.
+    
+    .EXAMPLE
+        Set-AdminUserState -Name "john.doe" -State Disable
+        
+        Disables the user account
+    
+    .EXAMPLE
+        Set-AdminUserState -Name "jane.smith" -State Enable
+        
+        Enables the user account
+    
+    .INPUTS
+        String. You can pipe usernames to this function.
+    
+    .OUTPUTS
+        None. Changes user state and writes to log.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     param (
         [ValidateSet("Enable","Disable")]
         [string]$State = "Enable",
@@ -76,6 +168,41 @@ function Set-AdminUserState {
 
 
 function Remove-AdminUser {
+    <#
+    .SYNOPSIS
+        Removes a local user account
+    
+    .DESCRIPTION
+        Removes the specified local user account. Includes protection against system account deletion
+        and confirmation prompt (unless -Force is specified).
+    
+    .PARAMETER Name
+        Specifies the username to remove. This parameter is mandatory.
+    
+    .PARAMETER Force
+        Skips confirmation prompt
+    
+    .EXAMPLE
+        Remove-AdminUser -Name "temp.user"
+        
+        Removes the user with confirmation
+    
+    .EXAMPLE
+        Remove-AdminUser -Name "old.account" -Force
+        
+        Forcefully removes the user without confirmation
+    
+    .INPUTS
+        String. You can pipe usernames to this function.
+    
+    .OUTPUTS
+        None. Removes user account and writes to log.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     param (
         
         [Parameter(Mandatory = $true)]
@@ -112,6 +239,38 @@ function Remove-AdminUser {
 }
 
 function Set-AdminUserInfo {
+    <#
+    .SYNOPSIS
+        Sets user account information
+    
+    .DESCRIPTION
+        Updates user account properties such as full name and description.
+    
+    .PARAMETER Name
+        Specifies the username. This parameter is mandatory.
+    
+    .PARAMETER FullName
+        Specifies the full name for the user
+    
+    .PARAMETER Description
+        Specifies the description for the user
+    
+    .EXAMPLE
+        Set-AdminUserInfo -Name "john.doe" -FullName "John Doe" -Description "Sales Department"
+        
+        Updates user information
+    
+    .INPUTS
+        String. You can pipe usernames to this function.
+    
+    .OUTPUTS
+        PSCustomObject. Returns updated user information.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     param (
         
         [Parameter(Mandatory = $true)]
@@ -147,6 +306,32 @@ function Set-AdminUserInfo {
 }
 
 function Reset-AdminUserPassword {
+    <#
+    .SYNOPSIS
+        Resets a user's password
+    
+    .DESCRIPTION
+        Resets the password for the specified user account. Includes secure password prompt.
+    
+    .PARAMETER Name
+        Specifies the username. This parameter is mandatory.
+    
+    .EXAMPLE
+        Reset-AdminUserPassword -Name "john.doe"
+        
+        Resets password for the user
+    
+    .INPUTS
+        String. You can pipe usernames to this function.
+    
+    .OUTPUTS
+        None. Resets password and writes to log.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     param (
         
         [Parameter(Mandatory = $true)]
