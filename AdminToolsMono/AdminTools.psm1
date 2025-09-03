@@ -2451,4 +2451,4 @@ function Start-AdminLoggerObject {
 Export-ModuleMember -Function * -Alias * -Variable *
 
 $Script:ModuleName = 'AdminTools'
-$Script:ModuleVersion = '1.0.0'
+$Script:ModuleVersion = '1.0.1'
