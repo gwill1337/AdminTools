@@ -1,4 +1,39 @@
 function Get-AdminHostInfo {
+    <#
+    .SYNOPSIS
+        Gets detailed information about the local system
+    
+    .DESCRIPTION
+        Retrieves comprehensive system information including OS details, hardware configuration,
+        memory, CPU, disks, network, and security settings. Supports multiple detail levels.
+    
+    .PARAMETER DetailLevel
+        Specifies the level of detail to return. Basic returns OS info only, Detailed adds hardware
+        information, Full includes security and update information.
+        
+        Valid values: Basic, Detailed, Full
+        Default: Basic
+    
+    .PARAMETER Show
+        Displays formatted output to console instead of returning objects
+    
+    .EXAMPLE
+        Get-AdminHostInfo -DetailLevel Basic
+        
+        Returns basic system information for local computer
+    
+    .EXAMPLE  
+        Get-AdminHostInfo -DetailLevel Full -Show
+        
+        Displays full system information in formatted output
+    
+    .OUTPUTS
+        PSCustomObject. Returns system information objects
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [ValidateSet("Basic", "Detailed", "Full")]
