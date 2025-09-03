@@ -1,0 +1,150 @@
+# ==============================================
+# PowerShell Module .gitignore
+# ==============================================
+
+# --- Системные файлы ---
+Thumbs.db
+.DS_Store
+*.lnk
+
+# --- Временные файлы ---
+*.tmp
+*.temp
+*.log
+*.bak
+*.backup
+*.old
+
+# --- Файлы IDE/Редакторов ---
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# PowerShell ISE
+*.ps1xml
+*.pssc
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# --- Файлы сборки и пакетов ---
+bin/
+obj/
+*.nupkg
+*.zip
+*.7z
+out/
+dist/
+build/
+
+# --- Файлы зависимостей ---
+packages/
+Modules/
+!Modules/*.psm1
+
+# --- Файлы документации ---
+*.chm
+*.docx
+*.pdf
+
+# --- Файлы данных и кэша ---
+*.suo
+*.user
+*.cache
+*.pidb
+*.userprefs
+
+# --- Файлы тестирования ---
+TestResults/
+*.trx
+*.coverage
+.coverage/
+
+# --- Файлы конфигурации с чувствительными данными ---
+*.secret
+*.private
+config.local.ps1
+credentials.xml
+*.pfx
+*.cer
+*.crt
+*.key
+
+# --- Файлы логов (если они генерируются при тестировании) ---
+logs/
+*.log*
+!*.log.example
+
+# --- Файлы Pester тестов (если будут) ---
+*.testresults.xml
+
+# --- Файлы профилей PowerShell ---
+Microsoft.PowerShell_profile.ps1
+
+# --- Временные файлы PowerShell ---
+*.pdb
+*.mof
+
+# --- Файлы сессий ---
+*.history
+*.transcript
+
+# --- Файлы модуля (скомпилированные) ---
+*.dll
+*.exe
+
+# --- Файлы резервных копий ---
+*~
+*.swp
+*.swo
+
+# --- Файлы Chocolatey (если будете использовать) ---
+_chocolatey/
+tools/chocolateyinstall.ps1
+tools/chocolateyuninstall.ps1
+
+# --- Файлы CI/CD ---
+.ci/
+.circleci/
+.travis.yml
+appveyor.yml
+.gitlab-ci.yml
+.github/workflows/*.yaml
+!.github/workflows/ci-cd.yaml.example
+
+# --- Файлы Docker ---
+Dockerfile
+.dockerignore
+
+# --- Исключения: что нужно коммитить ---
+!*.ps1
+!*.psm1
+!*.psd1
+!*.ps1xml
+!*.md
+!*.txt
+!LICENSE
+!*.json
+!*.yml
+!*.yaml
+
+# --- Файлы документации проекта ---
+README.md
+CHANGELOG.md
+CONTRIBUTING.md
+SECURITY.md
+CODE_OF_CONDUCT.md
+
+# --- Примеры конфигураций ---
+!*.example
+!*.sample
+!*.template
+
+# --- Файлы лицензии ---
+LICENSE*
+COPYING*
