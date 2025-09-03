@@ -1,4 +1,46 @@
 function Invoke-AdminRemoteCommand {
+    <#
+    .SYNOPSIS
+        Executes commands on remote computers
+    
+    .DESCRIPTION
+        Executes PowerShell scriptblocks on one or more remote computers.
+        Supports credentials, throttling, and error handling.
+    
+    .PARAMETER ComputerName
+        Specifies the remote computers. This parameter is mandatory.
+    
+    .PARAMETER Scriptblock
+        Specifies the scriptblock to execute. This parameter is mandatory.
+    
+    .PARAMETER Credential
+        Specifies credentials for remote access
+    
+    .PARAMETER ThrottleLimit
+        Specifies the maximum number of concurrent connections
+    
+    .PARAMETER fErrorAction
+        Specifies error action preference
+    
+    .EXAMPLE
+        Invoke-AdminRemoteCommand -ComputerName "Server01", "Server02" -Scriptblock { Get-Service }
+        
+        Gets services from multiple servers
+    
+    .EXAMPLE
+        $cred = Get-Credential
+        Invoke-AdminRemoteCommand -ComputerName "Server01" -Scriptblock { Get-Process } -Credential $cred
+        
+        Gets processes from server with credentials
+    
+    .OUTPUTS
+        PSCustomObject. Returns remote execution results.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: PowerShell Remoting enabled on target computers
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
@@ -64,6 +106,50 @@ function Invoke-AdminRemoteCommand {
 }
 
 function Get-AdminRemoteInfo {
+    <#
+    .SYNOPSIS
+        Gets system information from remote computers
+    
+    .DESCRIPTION
+        Retrieves comprehensive system information from one or more remote computers.
+        Supports the same detail levels as Get-AdminHostInfo.
+    
+    .PARAMETER DetailLevel
+        Specifies the level of detail: Basic, Detailed, or Full
+    
+    .PARAMETER Show
+        Displays formatted output instead of returning objects
+    
+    .PARAMETER ComputerName
+        Specifies the remote computers. This parameter is mandatory.
+    
+    .PARAMETER Credential
+        Specifies credentials for remote access
+    
+    .PARAMETER fErrorAction
+        Specifies error action preference
+    
+    .PARAMETER ThrottleLimit
+        Specifies the maximum number of concurrent connections
+    
+    .EXAMPLE
+        Get-AdminRemoteInfo -ComputerName "Server01" -DetailLevel Full
+        
+        Gets full system information from server
+    
+    .EXAMPLE
+        Get-AdminRemoteInfo -ComputerName @("Server01", "Server02") -DetailLevel Basic -Show
+        
+        Displays basic information from multiple servers
+    
+    .OUTPUTS
+        PSCustomObject. Returns remote system information.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: PowerShell Remoting enabled on target computers
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [ValidateSet("Basic", "Detailed", "Full")]
