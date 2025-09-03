@@ -1,4 +1,52 @@
 function Register-AdminTask {
+    <#
+    .SYNOPSIS
+        Registers a scheduled task
+    
+    .DESCRIPTION
+        Creates a new scheduled task with various trigger options.
+        Supports daily, hourly, and logon triggers with custom credentials.
+    
+    .PARAMETER TaskName
+        Specifies the task name. This parameter is mandatory.
+    
+    .PARAMETER ScriptPath
+        Specifies the script path to execute. This parameter is mandatory.
+    
+    .PARAMETER TriggerType
+        Specifies the trigger type: Daily, Hourly, or AtLogon
+    
+    .PARAMETER TriggerTime
+        Specifies the time for daily triggers
+    
+    .PARAMETER User
+        Specifies the user account to run the task
+    
+    .PARAMETER Password
+        Specifies the password for the user account
+    
+    .PARAMETER RepeatInterval
+        Specifies repetition interval for hourly triggers
+    
+    .PARAMETER Executable
+        Specifies the executable to use
+    
+    .EXAMPLE
+        Register-AdminTask -TaskName "DailyBackup" -ScriptPath "C:\Scripts\backup.ps1" -TriggerType Daily -TriggerTime "23:00"
+        
+        Creates daily backup task at 11 PM
+    
+    .INPUTS
+        None. You cannot pipe input to this function.
+    
+    .OUTPUTS
+        None. Creates scheduled task and writes to log.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
@@ -87,6 +135,32 @@ function Register-AdminTask {
 }
 
 function Remove-AdminTask {
+    <#
+    .SYNOPSIS
+        Removes a scheduled task
+    
+    .DESCRIPTION
+        Removes the specified scheduled task from Task Scheduler.
+    
+    .PARAMETER TaskName
+        Specifies the task name to remove. This parameter is mandatory.
+    
+    .EXAMPLE
+        Remove-AdminTask -TaskName "OldTask"
+        
+        Removes the specified task
+    
+    .INPUTS
+        String. You can pipe task names to this function.
+    
+    .OUTPUTS
+        None. Removes task and writes to log.
+    
+    .NOTES
+        Author: Gwill1337
+        Requires: Administrator privileges
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
@@ -105,6 +179,53 @@ function Remove-AdminTask {
 }
 
 function Send-AdminReport {
+    <#
+    .SYNOPSIS
+        Sends administrative reports via email
+    
+    .DESCRIPTION
+        Generates and sends reports in various formats (CSV, JSON, HTML) via email.
+        Supports including user, service, and update information.
+    
+    .PARAMETER ReportName
+        Specifies the report name. This parameter is mandatory.
+    
+    .PARAMETER Format
+        Specifies the report format: CSV, JSON, or HTML
+    
+    .PARAMETER Recipient
+        Specifies the email recipient
+    
+    .PARAMETER fSender
+        Specifies the sender email address
+    
+    .PARAMETER SmtpServer
+        Specifies the SMTP server
+    
+    .PARAMETER IncludeUsers
+        Includes user information in the report
+    
+    .PARAMETER IncludeServices
+        Includes service information in the report
+    
+    .PARAMETER InclideUpdates
+        Includes update information in the report
+    
+    .EXAMPLE
+        Send-AdminReport -ReportName "WeeklyReport" -Format HTML -Recipient "admin@company.com" -IncludeUsers -IncludeServices
+        
+        Sends HTML report with user and service information
+    
+    .INPUTS
+        None. You cannot pipe input to this function.
+    
+    .OUTPUTS
+        None. Generates and sends report.
+    
+    .NOTES
+        Author: Gwill1337
+        Version: 1.0.0
+    #>
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
