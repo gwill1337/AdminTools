@@ -1,4 +1,4 @@
-# PSAdminTools
+# AdminTools
 ![PowerShell](https://img.shields.io/badge/PowerShell-7.5+-blue.svg)
 ![Platform](https://img.shields.io/badge/Platform-Windows%2010%2B%20%7C%20Server%202016%2B-0078D4.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
